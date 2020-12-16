@@ -1,0 +1,102 @@
+{
+	"info": {
+		"_postman_id": "3e72ca52-2954-4f37-a06c-944411853e79",
+		"name": "123",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "test2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "68b15124-7490-4bb9-98e1-762a85dd206d",
+						"exec": [
+							"let responseJson = pm.response.json();",
+							"//    pm.collectionVariables.set(\"Permission\", []);",
+							"// console.log(pm.collectionVariables.get(\"Permission\"));",
+							"// console.log(pm.collectionVariables.get(\"Permission\").length);",
+							"",
+							"let merged = pm.collectionVariables.get(\"Permission\");",
+							"",
+							"if (pm.collectionVariables.get(\"Permission\").length==0){",
+							"        // console.log(\"@@@\")",
+							"        merged[0]={[pm.iterationData.get(\"Login\")]:responseJson.success}",
+							"}",
+							"else{",
+							"    merged[pm.collectionVariables.get(\"Permission\").length]={[pm.iterationData.get(\"Login\")]:responseJson.success}",
+							"}",
+							"",
+							" pm.collectionVariables.set(\"Permission\", merged);",
+							"",
+							"//  console.log(\"Login = \"+pm.iterationData.get(\"Login\"));",
+							"//  console.log(\"Pass = \"+pm.iterationData.get(\"Pass\"));",
+							"//  console.log(pm.collectionVariables.get(\"Permission\"));",
+							"",
+							"pm.test(\"Check Permission for \"+pm.iterationData.get(\"Login\"), function () {",
+							"    pm.expect(responseJson.success).to.be.equal(true);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"login\": \"{{Login}}\",\n    \"password\": \"{{Pass}}\",\n    \"device_token\": \"73e879b8-eac0-46df-aa32-16bddadcebff\",\n    \"device_type\": \"web\",\n    \"login_by\": \"manual\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/userApi/fleets/login",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"userApi",
+						"fleets",
+						"login"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "b6225f29-e933-4c13-b38d-31230fd82221",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "9103c7a8-f31a-450c-b521-a3f3d7c355c2",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "6c700662-ff78-49af-9b08-a04c8b78bef6",
+			"key": "Permission",
+			"value": ""
+		}
+	],
+	"protocolProfileBehavior": {}
+}
